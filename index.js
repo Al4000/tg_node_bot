@@ -12,7 +12,7 @@ const answers = require('./src/const/answers');
 const greetings = require('./src/const/greetings');
 
 // const
-const TOKEN = process.env.TOKEN;git
+const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_TEST_ID;
 const bot = new TelegramBot(TOKEN, {polling: true});
 let DB = [];
