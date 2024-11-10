@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7ddfffd6-4b00-43ca-9c67-2ee61b9edaff" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/const/teamNames.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/const/teamNames.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +33,12 @@
     &quot;assignee&quot;: &quot;Al4000&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Al4000/tg_node_bot.git",
-    "accountId": "7316388c-89ba-416c-8a12-1d5be07fa14a"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Al4000/tg_node_bot.git&quot;,
+    &quot;accountId&quot;: &quot;7316388c-89ba-416c-8a12-1d5be07fa14a&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -87,7 +89,10 @@
       <workItem from="1730816575860" duration="4720000" />
       <workItem from="1730917578340" duration="3264000" />
       <workItem from="1730920878820" duration="27000" />
-      <workItem from="1730920957958" duration="752000" />
+      <workItem from="1730920957958" duration="2244000" />
+      <workItem from="1731012097434" duration="2852000" />
+      <workItem from="1731077236691" duration="9000" />
+      <workItem from="1731265609995" duration="168000" />
     </task>
     <task id="LOCAL-00001" summary="readme">
       <option name="closed" value="true" />
@@ -105,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730921062915</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init">
+      <option name="closed" value="true" />
+      <created>1730921870977</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730921870977</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,6 +137,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="readme" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
