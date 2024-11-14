@@ -23,7 +23,9 @@ function setTeam(team, message, DB) {
             }
         }
         const lastName = user.last_name && repeatName > 1 ? user?.last_name?.[0] : '';
-        message += `${index+1}. ${firstName} ${lastName}\n`;
+        const captain = index === 0 ? '(к)' : '';
+        
+        message += `${index+1}. ${firstName} ${lastName} ${captain}\n`;
     });
 
     return message;

@@ -28,7 +28,7 @@ function getSquads(msg, DB) {
     let message = '';
 
     if (DB.length > 0 && msg?.from?.id === ADMIN_ID) {
-        message = '<b>Стартовые составы на сегодня:</b> \n\n';
+        message = '<b>Стартовые составы на игру:</b> \n\n';
 
         DB.sort(() => Math.random() - 0.5);
         const team1 = DB.slice(0, DB.length / 2);

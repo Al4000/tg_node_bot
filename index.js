@@ -72,26 +72,30 @@ bot.onText(/\+/, (msg) => {
 });
 
 bot.onText(/^-+$/gm, (msg) => {
-    const chatId = msg?.chat?.id;
-    const msgId = msg?.message_id;
-    const reaction = setReaction(dislikeEmoji);
-
-    bot.getUpdates().then(res => {
-        res.map(mes => {
-            const userId = mes?.message?.from.id;
-            const index = findLastIndex(DB,user => user.id === userId);
-            if (index > -1) {
-                DB.splice(index, 1);
-
-                const playersCount = DB.length;
-                if (playersCount) {
-                    bot.sendMessage(chatId, String(playersCount));
+    try {
+        const chatId = msg?.chat?.id;
+        const msgId = msg?.message_id;
+        const reaction = setReaction(dislikeEmoji);
+    
+        bot.getUpdates().then(res => {
+            res.map(mes => {
+                const userId = mes?.message?.from.id;
+                const index = findLastIndex(DB,user => user.id === userId);
+                if (index > -1) {
+                    DB.splice(index, 1);
+    
+                    const playersCount = DB.length;
+                    if (playersCount) {
+                        bot.sendMessage(chatId, String(playersCount));
+                    }
                 }
-            }
+            });
         });
-    });
-
-    bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+    
+        bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 bot.on('message', () => {
