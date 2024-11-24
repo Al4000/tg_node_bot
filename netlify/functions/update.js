@@ -15,8 +15,14 @@ const greetings = require('../../src/const/greetings');
 const url = 'https://tg-bot-node.netlify.app/.netlify/functions/update';
 const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_TEST_ID;
-const bot = new TelegramBot(TOKEN, {polling: true});
-// bot.setWebHook(`${url}/bot${TOKEN}`);
+const options = {
+    webHook: {
+      port: 443
+    }
+  };
+const bot = new TelegramBot(TOKEN, options);
+
+bot.setWebHook(`${url}/bot${TOKEN}`);
 
 let DB = [];
 const notificationInterval = 5 * 60 * 60; // 5 hours
