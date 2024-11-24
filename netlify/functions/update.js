@@ -15,8 +15,8 @@ const greetings = require('../../src/const/greetings');
 const url = 'https://tg-bot-node.netlify.app/.netlify/functions/update';
 const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_TEST_ID;
-const bot = new TelegramBot(TOKEN);
-bot.setWebHook(`${url}/bot${TOKEN}`);
+const bot = new TelegramBot(TOKEN, {polling: true});
+// bot.setWebHook(`${url}/bot${TOKEN}`);
 
 let DB = [];
 const notificationInterval = 5 * 60 * 60; // 5 hours
@@ -122,5 +122,6 @@ exports.handler = async () => {
     const clearDBJob = new schedule.scheduleJob('0 0 21 * * 1,5', function () {
         [DB, lastMessageTime] = clearDB();
     });
+
     return { statusCode: 200 };
 };
