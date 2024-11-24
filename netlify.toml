@@ -1,6 +1,5 @@
 [build]
     functions='netlify/functions'
-    publish='dist'
 [template.environment]
     ADMIN_ID=356391699
     CHAT_TEST_ID=-4572739870
