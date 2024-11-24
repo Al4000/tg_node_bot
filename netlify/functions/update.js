@@ -14,7 +14,7 @@ const greetings = require('../../src/const/greetings');
 // const
 const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_TEST_ID;
-const bot = new TelegramBot(TOKEN, {polling: true});
+const bot = new TelegramBot(TOKEN);
 let DB = [];
 const notificationInterval = 5 * 60 * 60; // 5 hours
 let lastMessageTime = new Date('31 Dec 2050').getTime() / 1000; // init
