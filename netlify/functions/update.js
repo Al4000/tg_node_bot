@@ -17,7 +17,7 @@ const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_TEST_ID;
 const options = {
     webHook: {
-      port: 80
+      port: 3000
     }
   };
 const bot = new TelegramBot(TOKEN, options);
