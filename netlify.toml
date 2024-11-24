@@ -1,0 +1,7 @@
+[build]
+  functions = "functions"
+[template.environment]
+    ADMIN_ID=356391699
+    CHAT_TEST_ID=-4572739870
+    CHAT_ID=-4591046053
+    TOKEN="7515946816:AAHtKTo379NROb_wKBgcNG-Yxp0Y_lpcXZM"
