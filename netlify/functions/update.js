@@ -3,13 +3,13 @@ const schedule = require('node-schedule');
 require('dotenv').config();
 
 // import
-const {findLastIndex, randomArray, setReaction, clearDB} = require('./src/utils/helpers');
-const {getLineUp, getSquads} = require('./src/commands');
-const {likeEmoji, dislikeEmoji} = require('./src/const/emoji');
-const {cancelGifs} = require('./src/const/gifs');
-const scheduled = require('./src/scheduled');
-const answers = require('./src/const/answers');
-const greetings = require('./src/const/greetings');
+const {findLastIndex, randomArray, setReaction, clearDB} = require('../src/utils/helpers');
+const {getLineUp, getSquads} = require('../src/commands');
+const {likeEmoji, dislikeEmoji} = require('../src/const/emoji');
+const {cancelGifs} = require('../src/const/gifs');
+const scheduled = require('../src/scheduled');
+const answers = require('../src/const/answers');
+const greetings = require('../src/const/greetings');
 
 // const
 const TOKEN = process.env.TOKEN;
