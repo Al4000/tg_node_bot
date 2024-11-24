@@ -1,6 +1,5 @@
 [build]
-    command='npm run build'
-    functions='functions'
+    functions='netlify/functions'
     publish='dist'
 [template.environment]
     ADMIN_ID=356391699
