@@ -29,7 +29,8 @@ const notificationInterval = 5 * 60 * 60; // 5 hours
 let lastMessageTime = new Date('31 Dec 2050').getTime() / 1000; // init
 
 exports.handler = async (event) => {
-    console.log(event);
+    const { message } = JSON.parse(event.body);
+    
     try {
         /* BOT COMMANDS */
         bot.onText(/\/здароваденис/, (msg) => {
