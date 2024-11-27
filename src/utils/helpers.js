@@ -15,17 +15,26 @@ function randomArray(arr) {
 function setTeam(team, message, DB) {
     team.forEach((user, index) => {
         const firstName = user.first_name;
+        const userLastName = user.last_name;
         let repeatName = 0;
+        let repeatLastName = 0;
 
         for (let i = 0; i < DB.length; i++) {
             if (DB[i].first_name === firstName) {
                 repeatName++;
             }
+            if (DB[i].last_name === userLastName) {
+                repeatLastName++;
+            }
         }
-        const lastName = user.last_name && repeatName > 1 ? user?.last_name?.[0] : '';
+        let lastName = '';
+        if (repeatName > 1) {
+            lastName = user.last_name ? user?.last_name?.[0] : user.message;
+        }
+        const userMessage = repeatLastName > 1 && !lastName ? user.message : '';
         const captain = index === 0 ? '(к)' : '';
         
-        message += `${index+1}. ${firstName} ${lastName} ${captain}\n`;
+        message += `${index+1}. ${firstName} ${lastName}${userMessage}${captain}\n`;
     });
 
     return message;
