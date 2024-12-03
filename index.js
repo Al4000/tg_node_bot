@@ -14,6 +14,7 @@ const greetings = require('./src/const/greetings');
 // const
 const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
+const ADMIN_ID = parseInt(process.env.ADMIN_ID, 10);
 const bot = new TelegramBot(TOKEN, {polling: true});
 let DB = [];
 const notificationInterval = 5 * 60 * 60; // 5 hours
@@ -21,61 +22,67 @@ let lastMessageTime = new Date('31 Dec 2050').getTime() / 1000; // init
 
 
 /* BOT COMMANDS */
-bot.onText(/\/здароваденис/, (msg) => {
+bot.onText(/\/zdarovadenis/, (msg) => {
     const text = randomArray(greetings);
     bot.sendMessage(msg?.chat?.id, text);
 });
 
-bot.onText(/\/дениспосчитай/, (msg) => {
+bot.onText(/\/sostav/, (msg) => {
     const message = getLineUp(msg, DB);
     bot.sendMessage(msg?.chat?.id, message, {parse_mode: 'HTML'});
 });
 
-bot.onText(/\/денисподели/, (msg) => {
+bot.onText(/\/denispodeli/, (msg) => {
     const message = getSquads(msg, DB);
     if (message) {
         bot.sendMessage(msg?.chat?.id, message, {parse_mode: 'HTML'});
     }
 });
 
-bot.onText(/\/денистурнир/, (msg) => {
+bot.onText(/\/turnir/, (msg) => {
     const message = getSquadsTournament(msg, DB);
     if (message) {
         bot.sendMessage(msg?.chat?.id, message, {parse_mode: 'HTML'});
     }
 });
 
-bot.onText(/\/денисподскажи/, (msg) => {
+bot.onText(/\/podskazhi/, (msg) => {
     const text = randomArray(answers);
     bot.sendMessage(msg?.chat?.id, text);
 });
 
-bot.onText(/\/галяотмена/, () => {
-    [DB, lastMessageTime] = clearDB();
-    const video = randomArray(cancelGifs);
-    bot.sendDocument(CHAT_ID, video);
+bot.onText(/\/галяотмена/, (msg) => {
+    if (msg?.from?.id === ADMIN_ID) {
+        [DB, lastMessageTime] = clearDB();
+        const video = randomArray(cancelGifs);
+        bot.sendDocument(CHAT_ID, video);
+    }
 });
 
 /* ON USER INPUT */
 bot.onText(/\+/, (msg) => {
-    const chatId = msg?.chat?.id;
-    const msgId = msg?.message_id;
-    const reaction = setReaction(likeEmoji);
+    try {
+        const chatId = msg?.chat?.id;
+        const msgId = msg?.message_id;
+        const reaction = setReaction(likeEmoji);
 
-    bot.getUpdates().then(res => {
-        res.map(mes => {
-            const user = mes?.message?.from;
-            user.message = mes?.message?.text;
-            DB.push(user);
+        bot.getUpdates().then(res => {
+            res.map(mes => {
+                const user = mes?.message?.from;
+                user.message = mes?.message?.text;
+                DB.push(user);
 
-            const playersCount = DB.length;
-            if (playersCount) {
-                bot.sendMessage(chatId, String(playersCount));
-            }
+                const playersCount = DB.length;
+                if (playersCount) {
+                    bot.sendMessage(chatId, String(playersCount));
+                }
+            });
         });
-    });
 
-    bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+        bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 bot.onText(/^-+$/gm, (msg) => {
@@ -123,6 +130,6 @@ const notificationMessage = new schedule.scheduleJob('0 0 19 * * 1,5', function 
     }
 });
 
-const clearDBJob = new schedule.scheduleJob('0 0 21 * * 1,5', function () {
+const clearDBJob = new schedule.scheduleJob('0 0 7 * * 1,5', function () {
     [DB, lastMessageTime] = clearDB();
 });
