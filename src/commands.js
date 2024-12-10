@@ -31,10 +31,17 @@ function getSquads(msg, DB) {
         message = '<b>Стартовые составы на игру:</b> \n\n';
 
         DB.sort(() => Math.random() - 0.5);
-        const team1 = DB.slice(0, DB.length / 2);
+      
+        const goalkeepers = DB.filter(usr => usr.message === '+вратарь');
+        const players = DB.filter(usr => usr.message !== '+вратарь');
+      
+        let team1 = goalkeepers.slice(0, goalkeepers.length / 2);
+        team1 = [...team1, ...players.slice(players.length / 2)];
+      
+        let team2 = goalkeepers.slice(goalkeepers.length / 2);
+        team2 = [...team2, ...players.slice(0, players.length / 2)];
+  
         const team1Name = randomArray(teamNames);
-
-        const team2 = DB.slice(DB.length / 2);
         let team2Name = randomArray(teamNames);
         if (team1Name === team2Name) {
             team2Name = randomArray(teamNames);

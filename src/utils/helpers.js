@@ -12,7 +12,13 @@ function randomArray(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function randomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 function setTeam(team, message, DB) {
+    const captainIndex = randomInt(team.length);
+
     team.forEach((user, index) => {
         const firstName = user.first_name;
         const userLastName = user.last_name;
@@ -29,11 +35,12 @@ function setTeam(team, message, DB) {
             }
         }
 
-        const lastName = repeatName > 1 && user.last_name ? user?.last_name?.[0] : '';
-        const userMessage = repeatLastName > 1 ? user.message : '';
-        const captain = index === 0 ? '(к)' : '';
+        const lastName = repeatName > 1 && user.last_name ? ` ${user?.last_name?.[0]}` : '';
+        const userMessage = repeatLastName > 1 ? ` ${user.message}` : '';
+        const captain = index === captainIndex ? '(к)' : '';
+        const goalkeeper = user.message === '+вратарь' ? '(вр)' : '';
         
-        message += `${index+1}. ${firstName} ${lastName}${userMessage}${captain}\n`;
+        message += `${index+1}. ${firstName}${lastName}${userMessage}${goalkeeper}${captain}\n`;
     });
 
     return message;
