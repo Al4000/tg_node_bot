@@ -14,13 +14,6 @@ function getLineUp(msg, DB) {
         message = 'Сегодня голяк..';
     }
 
-    const date = new Date();
-    const day = date.getDay();
-
-    if (day !== 1 && day !== 5 && msg.chat?.id === CHAT_ID) {
-        message = 'Сегодня я не работаю, приходите в пятницу или понедельник..';
-    }
-
     return message;
 }
 

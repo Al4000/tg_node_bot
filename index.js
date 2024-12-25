@@ -5,7 +5,7 @@ require('dotenv').config();
 // import
 const {findLastIndex, randomArray, setReaction, clearDB} = require('./src/utils/helpers');
 const {getLineUp, getSquadsTournament, getSquads} = require('./src/commands');
-const {likeEmoji, dislikeEmoji} = require("./src/const/emoji");
+const {likeEmoji, dislikeEmoji, angryEmoji} = require('./src/const/emoji');
 const {cancelGifs} = require('./src/const/gifs');
 const scheduled = require('./src/scheduled');
 const answers = require('./src/const/answers');
@@ -107,6 +107,17 @@ bot.onText(/^-+$/gm, (msg) => {
         });
     
         bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+bot.onText(/\расход/, (msg) => {
+    try {
+        const chatId = msg?.chat?.id;
+        const message = randomArray(angryEmoji);
+
+        bot.sendMessage(chatId, message);
     } catch (error) {
         console.log(error);
     }
