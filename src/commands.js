@@ -40,9 +40,9 @@ function getSquads(msg, DB) {
             team2Name = randomArray(teamNames);
         }
 
-        message += `<b>${team1Name}:</b>\n`;
+        message += `<b>${team1Name}:</b> (Белые ⚪)\n`;
         message = setTeam(team1, message, DB);
-        message += `\n<b>${team2Name}:</b>\n`;
+        message += `\n<b>${team2Name}:</b> (Черные ⚫)\n`;
         message = setTeam(team2, message, DB);
     }
 

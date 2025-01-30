@@ -112,7 +112,7 @@ bot.onText(/^-+$/gm, (msg) => {
     }
 });
 
-bot.onText(/\расход/, (msg) => {
+bot.onText(/[Рр]асход/, (msg) => {
     try {
         const chatId = msg?.chat?.id;
         const message = randomArray(angryEmoji);
@@ -128,12 +128,12 @@ bot.on('message', () => {
 });
 
 /* SCHEDULE */
-const scheduledMessage = new schedule.scheduleJob('0 59 7 * * 1,5', function () {
+const scheduledMessage = new schedule.scheduleJob('0 59 7 * * 1,5', function() {
     const {scheduledText, video} = scheduled;
     bot.sendDocument(CHAT_ID, video,{caption: scheduledText, parse_mode: 'HTML'});
 });
 
-const notificationMessage = new schedule.scheduleJob('0 0 19 * * 1,5', function () {
+const notificationMessage = new schedule.scheduleJob('0 0 19 * * 1,5', function() {
     const {notification} = scheduled;
     const currentTime = Math.floor(Date.now() / 1000);
     if (currentTime - lastMessageTime > notificationInterval) {
@@ -141,6 +141,6 @@ const notificationMessage = new schedule.scheduleJob('0 0 19 * * 1,5', function 
     }
 });
 
-const clearDBJob = new schedule.scheduleJob('0 0 7 * * 1,5', function () {
+const clearDBJob = new schedule.scheduleJob('0 0 23 * * 1,5', function() {
     [DB, lastMessageTime] = clearDB();
 });
