@@ -10,6 +10,7 @@ const {cancelGifs} = require('./src/const/gifs');
 const scheduled = require('./src/scheduled');
 const answers = require('./src/const/answers');
 const greetings = require('./src/const/greetings');
+// const banned = require('./src/const/banned');
 
 // const
 const TOKEN = process.env.TOKEN;
@@ -65,6 +66,15 @@ bot.onText(/\+/, (msg) => {
         const chatId = msg?.chat?.id;
         const msgId = msg?.message_id;
         const reaction = setReaction(likeEmoji);
+        // const banReaction = setReaction(banEmoji);
+        // const bannedPlayer = 1;
+
+        // if (bannedPlayer === msg?.from?.id) {
+        //     bot.setMessageReaction(chatId, msgId, {reaction: banReaction});
+        //     bot.sendMessage(chatId, randomArray(banned));
+
+        //     return;
+        // }
 
         bot.getUpdates().then(res => {
             res.map(mes => {
@@ -141,6 +151,6 @@ const notificationMessage = new schedule.scheduleJob('0 0 19 * * 1,5', function(
     }
 });
 
-const clearDBJob = new schedule.scheduleJob('0 0 23 * * 1,5', function() {
+const clearDBJob = new schedule.scheduleJob('0 0 7 * * 1,5', function() {
     [DB, lastMessageTime] = clearDB();
 });
