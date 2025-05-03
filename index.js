@@ -133,11 +133,16 @@ bot.onText(/[Рр]асход/, (msg) => {
     }
 });
 
-bot.on('message', () => {
+bot.on('message', (mes) => {
     lastMessageTime = Math.floor(Date.now() / 1000);
 });
 
 /* SCHEDULE */
+const testMessage = new schedule.scheduleJob('0 1 22 * * 6', function() {
+    const text = randomArray(greetings);
+    bot.sendMessage(CHAT_ID, text);
+});
+
 const scheduledMessage = new schedule.scheduleJob('0 59 7 * * 1,5', function() {
     const {scheduledText, video} = scheduled;
     bot.sendDocument(CHAT_ID, video,{caption: scheduledText, parse_mode: 'HTML'});
