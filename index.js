@@ -1,9 +1,11 @@
 const TelegramBot = require('node-telegram-bot-api');
+const OpenAI = require('openai');
 const schedule = require('node-schedule');
+const telegramifyMarkdown = require('telegramify-markdown');
 require('dotenv').config();
 
 // import
-const {findLastIndex, randomArray, setReaction, clearDB} = require('./src/utils/helpers');
+const {findLastIndex, randomArray, setReaction, clearDB, chatHelper} = require('./src/utils/helpers');
 const {getLineUp, getSquadsTournament, getSquads} = require('./src/commands');
 const {likeEmoji, dislikeEmoji, angryEmoji} = require('./src/const/emoji');
 const {cancelGifs} = require('./src/const/gifs');
@@ -12,11 +14,18 @@ const answers = require('./src/const/answers');
 const greetings = require('./src/const/greetings');
 // const banned = require('./src/const/banned');
 
-// const
+/* id */
+const OPEN_ROUTER_TOKEN = process.env.OPEN_ROUTER_TOKEN2;
 const TOKEN = process.env.TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 const ADMIN_ID = parseInt(process.env.ADMIN_ID, 10);
+
+/* init  */
 const bot = new TelegramBot(TOKEN, {polling: true});
+const openai = new OpenAI({
+    baseURL: 'https://openrouter.ai/api/v1',
+    apiKey: OPEN_ROUTER_TOKEN
+});
 let DB = [];
 const notificationInterval = 5 * 60 * 60; // 5 hours
 let lastMessageTime = new Date('31 Dec 2050').getTime() / 1000; // init
@@ -133,8 +142,24 @@ bot.onText(/[Рр]асход/, (msg) => {
     }
 });
 
-bot.on('message', (mes) => {
+bot.on('message', async (msg) => {
     lastMessageTime = Math.floor(Date.now() / 1000);
+    const text = msg?.text;
+    const chatId = msg?.chat?.id;
+    
+    if (text?.indexOf('Подскажи') > -1) {
+        try {
+            const userInput = text;
+            const message = { role: 'user', content: userInput };
+            const result = await chatHelper(openai, message);
+            if (result.content && typeof result.content === 'string') {
+                const formattedResult = telegramifyMarkdown(result.content);  
+                bot.sendMessage(chatId, formattedResult, {parse_mode: 'MarkdownV2'});
+            }
+        } catch (error) {
+            console.error('Error processing request:', error);
+        }
+    }
 });
 
 /* SCHEDULE */

@@ -57,5 +57,25 @@ function clearDB() {
     return [[], messageTime];
 }
 
+async function chatHelper(openai, message, model = 'deepseek/deepseek-chat', systemConfiguration = 'You are a helpful assistant.', messageHistory = []) {
+    const completion = await openai.chat.completions.create({
+        model: model,
+        messages: [
+            { role: 'system', content: systemConfiguration },
+            ...messageHistory,
+            message,
+        ],
+    });
+ 
+    return { role: 'assistant', content: completion?.choices[0]?.message?.content };
+}
 
-module.exports = { findLastIndex, randomArray, setTeam, setReaction, clearDB };
+
+module.exports = { 
+    findLastIndex,
+    randomArray,
+    setTeam,
+    setReaction,
+    clearDB,
+    chatHelper, 
+};
