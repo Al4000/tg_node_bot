@@ -4,15 +4,14 @@ const schedule = require('node-schedule');
 const telegramifyMarkdown = require('telegramify-markdown');
 require('dotenv').config();
 
-// import
+/* import */
 const {findLastIndex, randomArray, setReaction, clearDB, chatHelper} = require('./src/utils/helpers');
 const {getLineUp, getSquadsTournament, getSquads} = require('./src/commands');
 const {likeEmoji, dislikeEmoji, angryEmoji} = require('./src/const/emoji');
-const {cancelGifs} = require('./src/const/gifs');
+const {cancelGifs, startGifs} = require('./src/const/gifs');
 const scheduled = require('./src/scheduled');
 const answers = require('./src/const/answers');
 const greetings = require('./src/const/greetings');
-// const banned = require('./src/const/banned');
 
 /* id */
 const OPEN_ROUTER_TOKEN = process.env.OPEN_ROUTER_TOKEN2;
@@ -74,31 +73,30 @@ bot.onText(/\+/, (msg) => {
     try {
         const chatId = msg?.chat?.id;
         const msgId = msg?.message_id;
-        const reaction = setReaction(likeEmoji);
-        // const banReaction = setReaction(banEmoji);
-        // const bannedPlayer = 1;
 
-        // if (bannedPlayer === msg?.from?.id) {
-        //     bot.setMessageReaction(chatId, msgId, {reaction: banReaction});
-        //     bot.sendMessage(chatId, randomArray(banned));
+        if (DB.length < 10) {
+            const reaction = setReaction(likeEmoji);
 
-        //     return;
-        // }
+            bot.getUpdates().then(res => {
+                res.map(mes => {
+                    const user = mes?.message?.from;
+                    user.message = mes?.message?.text;
+                    DB.push(user);
 
-        bot.getUpdates().then(res => {
-            res.map(mes => {
-                const user = mes?.message?.from;
-                user.message = mes?.message?.text;
-                DB.push(user);
-
-                const playersCount = DB.length;
-                if (playersCount) {
-                    bot.sendMessage(chatId, String(playersCount));
-                }
+                    const playersCount = DB.length;
+                    if (playersCount) {
+                        bot.sendMessage(chatId, String(playersCount));
+                    }
+                    if (playersCount === 10) {
+                        bot.sendMessage(chatId, 'Набор окончен!');
+                    }
+                });
             });
-        });
 
-        bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+            bot.setMessageReaction(chatId, msgId, {reaction: reaction});
+        } else {
+            bot.sendMessage(chatId, 'Набор закрыт! При возникновении вопросов обратитесь в техническую поддержку');
+        }
     } catch (error) {
         console.log(error);
     }
@@ -113,13 +111,15 @@ bot.onText(/^-+$/gm, (msg) => {
         bot.getUpdates().then(res => {
             res.map(mes => {
                 const userId = mes?.message?.from.id;
-                const index = findLastIndex(DB,user => user.id === userId);
+                const index = findLastIndex(DB, user => user.id === userId);
                 if (index > -1) {
                     DB.splice(index, 1);
     
                     const playersCount = DB.length;
-                    if (playersCount) {
-                        bot.sendMessage(chatId, String(playersCount));
+                    bot.sendMessage(chatId, String(playersCount));
+               
+                    if (playersCount === 9) {
+                        bot.sendMessage(chatId, 'Чо началось');
                     }
                 }
             });
@@ -164,8 +164,9 @@ bot.on('message', async (msg) => {
 
 /* SCHEDULE */
 const scheduledMessage = new schedule.scheduleJob('0 59 7 * * 1,5', function() {
-    const {scheduledText, video} = scheduled;
-    bot.sendDocument(CHAT_ID, video,{caption: scheduledText, parse_mode: 'HTML'});
+    const gif = randomArray(startGifs);
+    const {scheduledText} = scheduled;
+    bot.sendDocument(CHAT_ID, gif, {caption: scheduledText, parse_mode: 'HTML'});
 });
 
 const notificationMessage = new schedule.scheduleJob('0 0 19 * * 1,5', function() {

@@ -1,4 +1,4 @@
-const banned = [
+const errors = [
     'Неизвестная ошибка',
     'Произошла ошибка, повторите запрос позже',
     'Игрок не зарегистрирован',
@@ -8,4 +8,4 @@ const banned = [
     'Соединение...',
 ];
 
-module.exports = banned;
+module.exports = errors;
