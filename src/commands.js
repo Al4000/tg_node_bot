@@ -96,21 +96,41 @@ function getSquads(msg, DB) {
 
     const shuffledPlayers = shuffleArray([...validUsers]);
     const { goalkeepers, fieldPlayers } = separatePlayersByPosition(shuffledPlayers);
+    const totalPlayers = validUsers.length;
+    const team1Size = Math.floor(totalPlayers / 2);
+    const team2Size = totalPlayers - team1Size;
+    const teams = {
+      team1: [],
+      team2: [],
+    };
     
-    // Распределение вратарей
-    const goalkeepersPerTeam = Math.floor(goalkeepers.length / 2);
-    const team1Goalkeepers = goalkeepers.slice(0, goalkeepersPerTeam);
-    const team2Goalkeepers = goalkeepers.slice(goalkeepersPerTeam);
+    // Функция для распределения игроков с приоритетом баланса команд
+    const distributePlayers = (players, useBalance = false) => {
+      players.forEach(player => {
+        const { team1, team2 } = teams;
+        
+        if (useBalance) {
+          // Балансируем команды при распределении вратарей
+          const shouldAddToTeam1 = team1.length <= team2.length 
+            ? team1.length < team1Size
+            : team2.length >= team2Size;
+            
+          shouldAddToTeam1 ? team1.push(player) : team2.push(player);
+        } else {
+          // Просто заполняем команды по порядку для полевых игроков
+          team1.length < team1Size ? team1.push(player) : team2.push(player);
+        }
+      });
+    };
     
-    // Распределение полевых игроков
-    const playersPerTeam = Math.floor(fieldPlayers.length / 2);
-    const team1Players = fieldPlayers.slice(0, playersPerTeam);
-    const team2Players = fieldPlayers.slice(playersPerTeam);
+    // 1) Распределяем вратарей с балансировкой
+    distributePlayers(goalkeepers, true);
     
-    // Формирование команд
-    const team1 = [...team1Goalkeepers, ...team1Players];
-    const team2 = [...team2Goalkeepers, ...team2Players];
+    // 2) Заполняем полевыми игроками
+    distributePlayers(fieldPlayers);
     
+    // Деструктурируем для обратной совместимости
+    const [team1, team2] = [teams.team1, teams.team2];
     const [team1Name, team2Name] = generateUniqueTeamNames(2);
     
     let message = MESSAGES.GAME_SQUADS_HEADER;
