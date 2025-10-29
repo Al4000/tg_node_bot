@@ -124,8 +124,16 @@ class ScheduleHandler {
             this.db.push(...newDB);
             this.lastMessageTime = newLastMessageTime;
             
+            // Сбрасываем максимальное количество игроков к значению по умолчанию
+            if (typeof config.updateMaxPlayers === 'function') {
+                config.updateMaxPlayers(10);
+            } else if (config?.game) {
+                config.game.maxPlayers = 10;
+            }
+            
             logger.info('База данных очищена по расписанию', {
-                playersCount: this.db.length
+                playersCount: this.db.length,
+                maxPlayers: config?.game?.maxPlayers
             });
             
         } catch (error) {

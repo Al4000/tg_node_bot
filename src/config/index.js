@@ -20,6 +20,7 @@ const config = {
         token: process.env.TOKEN,
         chatId: process.env.CHAT_ID,
         adminId: parseInt(process.env.ADMIN_ID, 10),
+        admin2Id: parseInt(process.env.ADMIN2_ID, 10),
         polling: true
     },
     
@@ -62,6 +63,20 @@ const config = {
         expenditure: /[Рр]асход/,
         helpRequest: /Подскажи/
     },
+};
+
+/**
+ * Обновляет максимальное количество игроков
+ * @param {number} newMaxPlayers - Новое значение maxPlayers
+ * @returns {boolean} true если обновление прошло успешно
+ */
+config.updateMaxPlayers = function(newMaxPlayers) {
+    const numPlayers = parseInt(newMaxPlayers, 10);
+    if (isNaN(numPlayers) || numPlayers < 1) {
+        return false;
+    }
+    this.game.maxPlayers = numPlayers;
+    return true;
 };
 
 module.exports = config;

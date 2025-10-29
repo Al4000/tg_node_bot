@@ -27,6 +27,9 @@ class MessageHandler {
         // Обработка слова "расход"
         this.bot.onText(config.patterns.expenditure, (msg) => this.handleExpenditure(msg));
         
+        // Обработка изменения maxPlayers админом (Состав:N)
+        this.bot.onText(/^Состав:\s*(\d+)$/i, (msg) => this.handleMaxPlayersUpdate(msg));
+        
         // Обработка всех сообщений (для AI)
         this.bot.on('message', (msg) => this.handleGeneralMessage(msg));
     }
@@ -211,6 +214,50 @@ class MessageHandler {
                 }
             }
         });
+    }
+    
+    /**
+     * Обрабатывает изменение максимального количества игроков (только для админа)
+     * @param {Object} msg - Сообщение
+     */
+    handleMaxPlayersUpdate(msg) {
+        try {
+            // Проверяем, что сообщение от админа
+            if (msg?.from?.id !== config.bot.adminId) {
+                return;
+            }
+            
+            const chatId = msg?.chat?.id;
+            const text = msg?.text;
+            
+            // Извлекаем число из сообщения вида "Состав:12"
+            const match = text.match(/^Состав:\s*(\d+)$/i);
+            if (!match) {
+                return;
+            }
+            
+            const newMaxPlayers = parseInt(match[1], 10);
+            
+            // Обновляем настройку
+            const success = config.updateMaxPlayers(newMaxPlayers);
+            
+            if (success) {
+                const message = `✅ Максимальное количество игроков изменено на: ${config.game.maxPlayers}`;
+                this.bot.sendMessage(chatId, message);
+                logger.info('Обновлено максимальное количество игроков', { 
+                    adminId: msg?.from?.id,
+                    newMaxPlayers: config.game.maxPlayers 
+                });
+            } else {
+                this.bot.sendMessage(chatId, '❌ Ошибка: некорректное значение количества игроков');
+            }
+            
+        } catch (error) {
+            const errorMessage = errorHandler.handleTelegramError(error, { action: 'maxPlayers_update' });
+            if (errorMessage) {
+                this.bot.sendMessage(msg?.chat?.id, errorMessage);
+            }
+        }
     }
 }
 
