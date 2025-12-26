@@ -1,8 +1,8 @@
 const { randomArray, setTeam, shuffleArray, validateUser, sanitizeUser } = require('./utils/helpers');
 const { getUniqueTeamNames } = require('./const/teamNames');
+const config = require('./config');
 
 // Константы
-const ADMIN_ID = parseInt(process.env.ADMIN_ID, 10);
 const CHAT_ID = process.env.CHAT_ID;
 const GOALKEEPER_MESSAGE = '+вратарь';
 
@@ -22,7 +22,7 @@ const MESSAGES = {
  * @returns {boolean}
  */
 function isAdmin(msg) {
-    return msg?.from?.id === ADMIN_ID;
+    return msg?.from?.id === config.bot.adminId || msg?.from?.id === config.bot.admin2Id;
 }
 
 /**

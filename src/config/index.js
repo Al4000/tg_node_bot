@@ -6,7 +6,7 @@
 require('dotenv').config();
 
 // Валидация обязательных переменных окружения
-const requiredEnvVars = ['TOKEN', 'CHAT_ID', 'ADMIN_ID', 'OPEN_ROUTER_TOKEN2'];
+const requiredEnvVars = ['TOKEN', 'CHAT_ID', 'ADMIN_ID', 'ADMIN2_ID', 'OPEN_ROUTER_TOKEN2'];
 const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {

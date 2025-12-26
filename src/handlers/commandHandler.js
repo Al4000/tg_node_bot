@@ -77,13 +77,10 @@ class CommandHandler {
      */
     handleSquads(msg) {
         try {
-            const userId = msg?.from?.id;
-            if (userId === config.bot.adminId || userId === config.bot.admin2Id) {
-                const message = getSquads(msg, this.db);
-                if (message) {
-                    this.bot.sendMessage(msg?.chat?.id, message, { parse_mode: 'HTML' });
-                    logger.info('Отправлены составы команд', { chatId: msg?.chat?.id, playersCount: this.db.length });
-                }
+            const message = getSquads(msg, this.db);
+            if (message) {
+                this.bot.sendMessage(msg?.chat?.id, message, { parse_mode: 'HTML' });
+                logger.info('Отправлены составы команд', { chatId: msg?.chat?.id, playersCount: this.db.length });
             }
         } catch (error) {
             const errorMessage = errorHandler.handleError(error, { command: 'squads' });
