@@ -1,5 +1,5 @@
 // Константы
-const GOALKEEPER_MESSAGE = '+вратарь';
+const { GOALKEEPER_MESSAGE } = require('../const');
 const CAPTAIN_MARKER = '(к)';
 const GOALKEEPER_MARKER = '(вр)';
 const CLEAR_DB_DATE = '31 Dec 2050';
@@ -115,7 +115,7 @@ function formatUserInfo(user, index, captainIndex, nameCounts) {
     const lastName = nameCount > 1 && user.last_name ? ` ${user.last_name[0]}` : '';
     const userMessage = lastNameCount > 1 ? ` ${user.message}` : '';
     const captain = index === captainIndex ? CAPTAIN_MARKER : '';
-    const goalkeeper = user.message === GOALKEEPER_MESSAGE ? GOALKEEPER_MARKER : '';
+    const goalkeeper = GOALKEEPER_MESSAGE.test(user.message || '') ? GOALKEEPER_MARKER : '';
     
     return `${index + 1}. ${user.first_name}${lastName}${userMessage}${goalkeeper}${captain}\n`;
 }

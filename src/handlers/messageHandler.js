@@ -6,7 +6,7 @@
 const { logger } = require('../services/logger');
 const { errorHandler } = require('../services/errorHandler');
 const { randomArray, findLastIndex, setReaction, chatHelper } = require('../utils/helpers');
-const { emoji } = require('../const');
+const { emoji, GOALKEEPER_MESSAGE } = require('../const');
 const config = require('../config');
 
 class MessageHandler {
@@ -179,7 +179,16 @@ class MessageHandler {
                 this.db.push(user);
                 
                 const playersCount = this.db.length;
-                this.bot.sendMessage(chatId, String(playersCount));
+
+                // Если игрок зарегистрирован как вратарь, выводим дополнительную строку с количеством вратарей
+                if (GOALKEEPER_MESSAGE.test(user.message || '')) {
+                    const goalkeepersCount = this.db.filter(
+                        (u) => GOALKEEPER_MESSAGE.test(u.message || '')
+                    ).length;
+                    this.bot.sendMessage(chatId, `${String(playersCount)} \nВратарей: ${goalkeepersCount}`);
+                } else {
+                    this.bot.sendMessage(chatId, String(playersCount));
+                }
                 
                 if (playersCount === config.game.maxPlayers) {
                     const randomEmoji = randomArray(emoji.football);
@@ -201,10 +210,22 @@ class MessageHandler {
             if (userId) {
                 const index = findLastIndex(this.db, user => user.id === userId);
                 if (index > -1) {
+                    const removedUser = this.db[index];
+                    const wasGoalkeeper = GOALKEEPER_MESSAGE.test(removedUser?.message || '');
                     this.db.splice(index, 1);
                     
                     const playersCount = this.db.length;
-                    this.bot.sendMessage(chatId, String(playersCount));
+                   
+
+                    // Если был удален вратарь, выводим обновленное количество вратарей
+                    if (wasGoalkeeper) {
+                        const goalkeepersCount = this.db.filter(
+                            (u) => GOALKEEPER_MESSAGE.test(u.message || '')
+                        ).length;
+                        this.bot.sendMessage(chatId, `${String(playersCount)} \nВратарей: ${goalkeepersCount}`);
+                    } else {
+                        this.bot.sendMessage(chatId, String(playersCount));
+                    }
                     
                     if (playersCount === config.game.maxPlayers - 1) {
                         const randomEmoji = randomArray(emoji.surprise);

@@ -10,6 +10,9 @@ const { START_GIFS, CANCEL_GIFS } = require('./gifs');
 const { GREETINGS } = require('./greetings');
 const TEAM_NAMES = require('./teamNames');
 
+// Сообщения
+const GOALKEEPER_MESSAGE = /^\+\s*вратарь$/i;
+
 module.exports = {
     // Ответы для случайных вопросов
     ANSWERS,
@@ -38,4 +41,7 @@ module.exports = {
     
     // Названия команд
     TEAM_NAMES,
+
+    // Сообщения
+    GOALKEEPER_MESSAGE,
 };

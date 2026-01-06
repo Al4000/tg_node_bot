@@ -1,10 +1,10 @@
 const { randomArray, setTeam, shuffleArray, validateUser, sanitizeUser } = require('./utils/helpers');
 const { getUniqueTeamNames } = require('./const/teamNames');
 const config = require('./config');
+const { GOALKEEPER_MESSAGE } = require('./const');
 
 // Константы
 const CHAT_ID = process.env.CHAT_ID;
-const GOALKEEPER_MESSAGE = '+вратарь';
 
 // Сообщения
 const MESSAGES = {
@@ -41,8 +41,8 @@ function generateUniqueTeamNames(count) {
  */
 function separatePlayersByPosition(players) {
     return {
-        goalkeepers: players.filter(player => player.message === GOALKEEPER_MESSAGE),
-        fieldPlayers: players.filter(player => player.message !== GOALKEEPER_MESSAGE)
+        goalkeepers: players.filter(player => GOALKEEPER_MESSAGE.test(player.message || '')),
+        fieldPlayers: players.filter(player => !GOALKEEPER_MESSAGE.test(player.message || ''))
     };
 }
 

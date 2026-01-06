@@ -1,11 +1,11 @@
 {
-  "name": "telegrambot",
-  "version": "1.0.0",
+  "name": "big_shlem_bot",
+  "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "big.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon big.js",
+    "start": "node big.js"
   },
   "author": "Alexander Kazakov",
   "license": "ISC",
