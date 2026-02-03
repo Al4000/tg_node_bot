@@ -178,7 +178,7 @@ class MessageHandler {
                 user.message = update?.message?.text;
                 this.db.push(user);
                 
-                const playersCount = String(this.db.length);
+                const playersCount = this.db.length;
 
                 // Если игрок зарегистрирован как вратарь, выводим дополнительную строку с количеством вратарей
                 const isGoalkeeper = GOALKEEPER_MESSAGE.test(user.message ?? '');
@@ -216,7 +216,7 @@ class MessageHandler {
                     const wasGoalkeeper = GOALKEEPER_MESSAGE.test(removedUser?.message || '');
                     this.db.splice(index, 1);
                     
-                    const playersCount = String(this.db.length);
+                    const playersCount = this.db.length;
                    
                     // Если был удален вратарь, выводим обновленное количество вратарей
                     const goalkeepersCount = this.db
