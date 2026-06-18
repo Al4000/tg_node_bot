@@ -76,10 +76,10 @@ class ScheduleHandler {
     handleMatchdayMessage() {
         try {
             const gif = randomArray(gifs.start);
-            const { SCHEDULED_TEXT } = scheduled;
+            const { getScheduledText } = scheduled;
             
             this.bot.sendDocument(config.bot.chatId, gif, {
-                caption: SCHEDULED_TEXT,
+                caption: getScheduledText(),
                 parse_mode: 'HTML'
             });
             
