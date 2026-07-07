@@ -24,8 +24,6 @@ function getScheduledText(date = new Date()) {
 
     if (day === 1) {
         header = '📢 MATCHDAY В РОДИНЕ ⚽';
-    } else if (day === 4) {
-        header = '📢 MATCHDAY В АКУЛЕ ⚽';
     }
 
     return `${header}\n\n${SCHEDULED_TEXT_BODY}`;
