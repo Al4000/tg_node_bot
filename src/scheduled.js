@@ -22,7 +22,7 @@ function getScheduledText(date = new Date()) {
     const day = date.getDay();
     let header = '📢 MATCHDAY ⚽';
 
-    if (day === 1) {
+    if (day === 1 || day === 5) {
         header = '📢 MATCHDAY В РОДИНЕ ⚽';
     }
 

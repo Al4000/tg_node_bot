@@ -130,7 +130,7 @@ class MessageHandler {
             const text = msg?.text;
             const chatId = msg?.chat?.id;
             
-            if (text?.indexOf('Подскажи') > -1) {
+            if (config.patterns.helpRequest.test(text)) {
                 await this.handleAIRequest(chatId, text);
             }
             
