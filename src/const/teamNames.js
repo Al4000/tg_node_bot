@@ -1,3 +1,5 @@
+const shuffleArray = require('../utils/shuffleArray');
+
 const TEAM_NAMES = [
     'Беляши',
     'Спортак',
@@ -184,8 +186,7 @@ function getRandomTeamName() {
  * @returns {string[]} Массив уникальных названий
  */
 function getUniqueTeamNames(count) {
-    const shuffled = [...TEAM_NAMES].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, Math.min(count, TEAM_NAMES.length));
+    return shuffleArray(TEAM_NAMES).slice(0, Math.min(count, TEAM_NAMES.length));
 }
 
 /**

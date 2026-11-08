@@ -1,5 +1,6 @@
 // Константы
 const { GOALKEEPER_MESSAGE } = require('../const');
+const shuffleArray = require('./shuffleArray');
 const CAPTAIN_MARKER = '(к)';
 const GOALKEEPER_MARKER = '(вр)';
 const CLEAR_DB_DATE = '31 Dec 2050';
@@ -55,26 +56,6 @@ function randomInt(max) {
     }
     
     return Math.floor(Math.random() * max);
-}
-
-/**
- * Перемешивает массив (алгоритм Фишера-Йетса)
- * @param {Array} array - Массив для перемешивания
- * @returns {Array} Новый перемешанный массив
- */
-function shuffleArray(array) {
-    if (!Array.isArray(array)) {
-        return [];
-    }
-    
-    const shuffled = [...array];
-    
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    
-    return shuffled;
 }
 
 /**
