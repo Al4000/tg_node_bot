@@ -1,10 +1,4 @@
-/**
- * Модуль с названиями команд
- * Содержит различные категории названий команд для футбольных матчей
- */
-
-// Классические названия команд
-const CLASSIC_NAMES = [
+const TEAM_NAMES = [
     'Беляши',
     'Спортак',
     'Кельма',
@@ -14,11 +8,7 @@ const CLASSIC_NAMES = [
     'Борцы за победу',
     'Ловкие парни',
     'Неуловимые пираты',
-    'Red Bull'
-];
-
-// Агрессивные названия
-const AGGRESSIVE_NAMES = [
+    'Red Bull',
     'Голодные звери',
     'Жаждущие крови',
     'Черная банда',
@@ -28,11 +18,7 @@ const AGGRESSIVE_NAMES = [
     'Древние зомби',
     'Беглые преступники',
     'Черепашки Ниндзя',
-    'Синяя молния'
-];
-
-// Футбольные клубы
-const FOOTBALL_CLUBS = [
+    'Синяя молния',
     'Фиорентина',
     'Ференцварош',
     'Спортинг',
@@ -52,11 +38,7 @@ const FOOTBALL_CLUBS = [
     'Бавария',
     'Кировское Динамо',
     'Машиностроитель',
-    'Бристоль'
-];
-
-// Смешные названия
-const FUNNY_NAMES = [
+    'Бристоль',
     'Бродячие псы',
     'Растаманы',
     'Злые одуванчики',
@@ -91,7 +73,6 @@ const FUNNY_NAMES = [
     'Сытые коты',
     'Barracudes',
     'Быстроходы',
-    'Kings of the world',
     'Остывшие чебуреки',
     'Горячие чебуреки',
     'Изгнанные из КБ',
@@ -166,52 +147,45 @@ const FUNNY_NAMES = [
     'Не Бей Сильно',
     'Ебать Мы Команда',
     'По второй схеме',
-];
-
-// Все названия команд
-const TEAM_NAMES = [
-    ...CLASSIC_NAMES,
-    ...AGGRESSIVE_NAMES,
-    ...FOOTBALL_CLUBS,
-    ...FUNNY_NAMES
+    'Backstreet Boys',
+    'Мистеры олимпии',
+    'Хищники',
+    'Пламенный лед',
+    'Ярость гнева',
+    'Филадельфия Юнион',
+    'Орландо сити',
+    'Сан-Хосе Эртквейс',
+    'Ботафого',
+    'Депортиво',
+    'Наполи',
+    'Про Верчелли',
+    'Бык Бойс баттл шанс',
+    'Опоздавшие из-за переезда',
+    'Родина Киров',
+    'Зенит',
+    'Треш конеш, ну что поделаешь',
+    'Эти самые',
+    'Мальчишки-игрочишки',
+    'Пингпонгеры',
+    'Братислава',
 ];
 
 /**
- * Получает случайное название команды из определенной категории
- * @param {'classic'|'aggressive'|'football'|'funny'|'all'} category - Категория названий
+ * Получает случайное название команды
  * @returns {string} Случайное название команды
  */
-function getRandomTeamName(category = 'all') {
-    const categories = {
-        classic: CLASSIC_NAMES,
-        aggressive: AGGRESSIVE_NAMES,
-        football: FOOTBALL_CLUBS,
-        funny: FUNNY_NAMES,
-        all: TEAM_NAMES
-    };
-    
-    const selectedCategory = categories[category] || TEAM_NAMES;
-    return selectedCategory[Math.floor(Math.random() * selectedCategory.length)];
+function getRandomTeamName() {
+    return TEAM_NAMES[Math.floor(Math.random() * TEAM_NAMES.length)];
 }
 
 /**
  * Получает уникальные названия команд
  * @param {number} count - Количество названий
- * @param {string} category - Категория названий
  * @returns {string[]} Массив уникальных названий
  */
-function getUniqueTeamNames(count, category = 'all') {
-    const categories = {
-        classic: CLASSIC_NAMES,
-        aggressive: AGGRESSIVE_NAMES,
-        football: FOOTBALL_CLUBS,
-        funny: FUNNY_NAMES,
-        all: TEAM_NAMES
-    };
-    
-    const selectedCategory = categories[category] || TEAM_NAMES;
-    const shuffled = [...selectedCategory].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, Math.min(count, selectedCategory.length));
+function getUniqueTeamNames(count) {
+    const shuffled = [...TEAM_NAMES].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, Math.min(count, TEAM_NAMES.length));
 }
 
 /**
@@ -224,38 +198,19 @@ function isTeamNameExists(name) {
 }
 
 /**
- * Получает количество названий команд в категории
- * @param {string} category - Категория названий
+ * Получает количество названий команд
  * @returns {number} Количество названий
  */
-function getTeamNamesCount(category = 'all') {
-    const categories = {
-        classic: CLASSIC_NAMES,
-        aggressive: AGGRESSIVE_NAMES,
-        football: FOOTBALL_CLUBS,
-        funny: FUNNY_NAMES,
-        all: TEAM_NAMES
-    };
-    
-    const selectedCategory = categories[category] || TEAM_NAMES;
-    return selectedCategory.length;
+function getTeamNamesCount() {
+    return TEAM_NAMES.length;
 }
 
 module.exports = {
     TEAM_NAMES,
-    
-    // Категоризированные названия
-    CLASSIC_NAMES,
-    AGGRESSIVE_NAMES,
-    FOOTBALL_CLUBS,
-    FUNNY_NAMES,
-    
+
     // Функции для работы с названиями команд
     getRandomTeamName,
     getUniqueTeamNames,
     isTeamNameExists,
     getTeamNamesCount,
-    
-    // Экспорт по умолчанию
-    default: TEAM_NAMES
 };

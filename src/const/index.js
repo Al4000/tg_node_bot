@@ -8,7 +8,7 @@ const { LIKE_EMOJI, DISLIKE_EMOJI, ANGRY_EMOJI, BAN_EMOJI, FOOTBALL_EMOJI, SURPR
 const ERRORS = require('./errors');
 const { START_GIFS, CANCEL_GIFS } = require('./gifs');
 const { GREETINGS } = require('./greetings');
-const TEAM_NAMES = require('./teamNames');
+const { TEAM_NAMES } = require('./teamNames');
 
 // Сообщения
 const GOALKEEPER_MESSAGE = /^\+\s*вратарь$/i;
